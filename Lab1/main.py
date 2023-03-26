@@ -1,4 +1,5 @@
 import glfw
+from OpenGL.GL import *
 
 
 def main():
@@ -6,7 +7,7 @@ def main():
     if not glfw.init():
         return
     # Create a windowed mode window and its OpenGL context
-    window = glfw.create_window(640, 480, "Hello World", None, None)
+    window = glfw.create_window(800, 800, "Triangle", None, None)
     if not window:
         glfw.terminate()
         return
@@ -17,6 +18,13 @@ def main():
     # Loop until the user closes the window
     while not glfw.window_should_close(window):
         # Render here, e.g. using pyOpenGL
+
+        glBegin(GL_TRIANGLES)
+        glColor3f(1, 0, 0)
+        glVertex2d(-0.5, -0.5)
+        glVertex2d(0.5, 0)
+        glVertex2d(0, 0.5)
+        glEnd()
 
         # Swap front and back buffers
         glfw.swap_buffers(window)
