@@ -68,9 +68,15 @@ def main():
         draw_triangle(-0.95, 0.46, 0.15, -0.95, -0.95, -0.95)
 
         # Sun
-        draw_circle(-0.6, -0.5, 0.22, 100)
+        draw_circle(-0.65, -0.5, 0.21, 100)
         # Moon
-        draw_semi_circle(-0.6, 0.38, 0.22, 100)
+        draw_semi_circle(-0.65, 0.38, 0.21, 100)
+
+        # Testing
+        glColor3f(0, 0.207, 0.580)  # BLUE
+        draw_triangle(-0.65, -0.18, -0.6, -0.3, -0.70, -0.3)
+        draw_triangle(-0.49, -0.22, -0.6, -0.3, -0.5, -0.35)
+        ####
 
         # Swap front and back buffers
         glfw.swap_buffers(window)
