@@ -36,6 +36,18 @@ def draw_semi_circle(x, y, radius, num_segments):
     glEnd()
 
 
+def rotate_point(x, y, theta=-30):
+    # Pivot points (center of sun)
+    xr = -0.65
+    yr = -0.5
+    theta = math.radians(theta)
+    result = []
+    result.append(xr + (x - xr) * math.cos(theta) - (y - yr) * math.sin(theta))
+    result.append(yr + (x - xr) * math.sin(theta) + (y - yr) * math.cos(theta))
+
+    return result
+
+
 def main():
     # Initialize the library
     if not glfw.init():
@@ -74,8 +86,25 @@ def main():
 
         # Testing
         glColor3f(0, 0.207, 0.580)  # BLUE
-        draw_triangle(-0.65, -0.18, -0.6, -0.3, -0.70, -0.3)
-        draw_triangle(-0.49, -0.22, -0.6, -0.3, -0.5, -0.35)
+        temp_x1 = -0.7
+        temp_y1 = -0.3
+        temp_x2 = -0.65
+        temp_y2 = -0.18
+        temp_x3 = -0.6
+        temp_y3 = -0.3
+        for _ in range(12):
+            draw_triangle(temp_x1, temp_y1, temp_x2, temp_y2, temp_x3, temp_y3)
+
+            temp_x1 = temp_x3
+            temp_y1 = temp_y3
+
+            temp_x2 = rotate_point(temp_x2, temp_y2)[0]
+            temp_y2 = rotate_point(temp_x2, temp_y2)[1]
+
+            temp_x3 = rotate_point(temp_x3, temp_y3)[0]
+            temp_y3 = rotate_point(temp_x3, temp_y3)[1]
+
+        # draw_triangle(-0.49, -0.22, -0.6, -0.3, -0.5, -0.35)
         ####
 
         # Swap front and back buffers
