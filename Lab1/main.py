@@ -14,7 +14,6 @@ def draw_triangle(x1, y1, x2, y2, x3, y3):
 
 def draw_circle(x, y, radius, num_segments=100):
     glBegin(GL_TRIANGLE_FAN)
-    glColor3f(1.0, 1.0, 1.0)
     glVertex2f(x, y)
     for i in range(num_segments + 1):
         theta = 2.0 * math.pi * i / num_segments
@@ -24,38 +23,30 @@ def draw_circle(x, y, radius, num_segments=100):
     glEnd()
 
 
-def draw_semi_circle(x, y, radius, num_segments=100):
-    glBegin(GL_TRIANGLE_FAN)
-    glColor3f(1.0, 1.0, 1.0)
-    glVertex2f(x, y)  # center point
-    for i in range(num_segments + 1):
-        angle = math.pi * i / num_segments
-        cx = radius * math.cos(angle)
-        cy = -radius * math.sin(angle)
-        glVertex2f(x + cx, y + cy)
-    glEnd()
-
-
-def rotate_point(x, y, theta=-30):
-    # Pivot points (center of sun)
-    xr = -0.65
-    yr = -0.5
+def rotate_point(x, y, pivot_xr, pivot_yr, theta=-30):
     theta = math.radians(theta)
     result = []
-    eval_x = xr + (x - xr) * math.cos(theta) - (y - yr) * math.sin(theta)
-    eval_y = yr + (x - xr) * math.sin(theta) + (y - yr) * math.cos(theta)
+    eval_x = (
+        pivot_xr + (x - pivot_xr) * math.cos(theta) - (y - pivot_yr) * math.sin(theta)
+    )
+    eval_y = (
+        pivot_yr + (x - pivot_xr) * math.sin(theta) + (y - pivot_yr) * math.cos(theta)
+    )
     result.append(eval_x)
     result.append(eval_y)
     return result
 
 
-def generate_spikes_sun():
-    coordinate_x1 = -0.7
-    coordinate_y1 = -0.305
-    coordinate_x2 = -0.65
-    coordinate_y2 = -0.21
-    coordinate_x3 = -0.6
-    coordinate_y3 = -0.305
+def generate_spikes(
+    coordinate_x1,
+    coordinate_y1,
+    coordinate_x2,
+    coordinate_y2,
+    coordinate_x3,
+    coordinate_y3,
+    pivot_xr,
+    pivot_yr,
+):
     for _ in range(12):
         draw_triangle(
             coordinate_x1,
@@ -69,13 +60,13 @@ def generate_spikes_sun():
         coordinate_x1 = coordinate_x3
         coordinate_y1 = coordinate_y3
 
-        temp_x2 = rotate_point(coordinate_x2, coordinate_y2)[0]
-        temp_y2 = rotate_point(coordinate_x2, coordinate_y2)[1]
+        temp_x2 = rotate_point(coordinate_x2, coordinate_y2, pivot_xr, pivot_yr)[0]
+        temp_y2 = rotate_point(coordinate_x2, coordinate_y2, pivot_xr, pivot_yr)[1]
         coordinate_x2 = temp_x2
         coordinate_y2 = temp_y2
 
-        temp_x3 = rotate_point(coordinate_x3, coordinate_y3)[0]
-        temp_y3 = rotate_point(coordinate_x3, coordinate_y3)[1]
+        temp_x3 = rotate_point(coordinate_x3, coordinate_y3, pivot_xr, pivot_yr)[0]
+        temp_y3 = rotate_point(coordinate_x3, coordinate_y3, pivot_xr, pivot_yr)[1]
         coordinate_x3 = temp_x3
         coordinate_y3 = temp_y3
 
@@ -111,12 +102,22 @@ def main():
         draw_triangle(-0.95, 0.9, 0.15, 0.06, -0.95, 0.06)
         draw_triangle(-0.95, 0.46, 0.15, -0.95, -0.95, -0.95)
 
+        glColor3f(1.0, 1.0, 1.0)
         # Sun
         draw_circle(-0.65, -0.5, 0.2)
+        generate_spikes(-0.7, -0.305, -0.65, -0.21, -0.6, -0.305, -0.65, -0.5)
         # Moon
-        draw_semi_circle(-0.65, 0.38, 0.2)
+        draw_circle(-0.65, 0.36, 0.2)
 
-        generate_spikes_sun()
+        #### Tidy up moon
+        glColor3f(0.866, 0.047, 0.223)  # RED
+        draw_circle(-0.65, 0.42, 0.2)
+        glColor3f(1.0, 1.0, 1.0)
+        draw_circle(-0.65, 0.3, 0.1)
+        # glColor3f(0, 0.207, 0.580)  # BLUE
+        generate_spikes(-0.68, 0.39, -0.65, 0.44, -0.63, 0.39, -0.65, 0.3)
+        # draw_triangle(-0.68, 0.39, -0.65, 0.43, -0.63, 0.39)
+        ####
 
         # Swap front and back buffers
         glfw.swap_buffers(window)
