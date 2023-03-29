@@ -106,18 +106,14 @@ def main():
         # Sun
         draw_circle(-0.65, -0.5, 0.2)
         generate_spikes(-0.7, -0.305, -0.65, -0.21, -0.6, -0.305, -0.65, -0.5)
+
         # Moon
         draw_circle(-0.65, 0.36, 0.2)
-
-        #### Tidy up moon
         glColor3f(0.866, 0.047, 0.223)  # RED
         draw_circle(-0.65, 0.42, 0.2)
         glColor3f(1.0, 1.0, 1.0)
         draw_circle(-0.65, 0.3, 0.1)
-        # glColor3f(0, 0.207, 0.580)  # BLUE
         generate_spikes(-0.68, 0.39, -0.65, 0.44, -0.63, 0.39, -0.65, 0.3)
-        # draw_triangle(-0.68, 0.39, -0.65, 0.43, -0.63, 0.39)
-        ####
 
         # Swap front and back buffers
         glfw.swap_buffers(window)
