@@ -1,6 +1,5 @@
 import glfw
 from OpenGL.GL import *
-import numpy as np
 import math
 
 
@@ -21,6 +20,18 @@ def draw_circle(x, y, radius, num_segments):
         theta = 2.0 * math.pi * i / num_segments
         cx = radius * math.cos(theta)
         cy = radius * math.sin(theta)
+        glVertex2f(x + cx, y + cy)
+    glEnd()
+
+
+def draw_semi_circle(x, y, radius, num_segments):
+    glBegin(GL_TRIANGLE_FAN)
+    glColor3f(1.0, 1.0, 1.0)
+    glVertex2f(x, y)  # center point
+    for i in range(num_segments + 1):
+        angle = math.pi * i / num_segments
+        cx = radius * math.cos(angle)
+        cy = -radius * math.sin(angle)
         glVertex2f(x + cx, y + cy)
     glEnd()
 
@@ -56,7 +67,10 @@ def main():
         draw_triangle(-0.95, 0.9, 0.15, 0.06, -0.95, 0.06)
         draw_triangle(-0.95, 0.46, 0.15, -0.95, -0.95, -0.95)
 
-        draw_circle(-0.6, -0.6, 0.18, 32)
+        # Sun
+        draw_circle(-0.6, -0.5, 0.22, 100)
+        # Moon
+        draw_semi_circle(-0.6, 0.38, 0.22, 100)
 
         # Swap front and back buffers
         glfw.swap_buffers(window)
