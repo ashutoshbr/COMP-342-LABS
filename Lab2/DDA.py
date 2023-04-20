@@ -37,24 +37,25 @@ def main():
     gluPerspective(60, 1, 10, 1000)
     glTranslatef(0.0, 0.0, -100)
 
+    # Draw a line between two points
+    vertices = DDA((2, 3), (50, 20))
+
+    # Red color
+    glColor3f(1, 0, 0)
+    glBegin(GL_LINE_STRIP)
+    for v in vertices:
+        x, y = v
+        print(v)
+        glVertex2f(x, y)
+    glEnd()
+    display.flip()
+
     while True:
         # Quitting PyGame windows
         for ev in event.get():
             if ev.type == pg.QUIT:
                 pg.quit()
                 quit()
-
-        # Draw a line between two points
-        vertices = DDA((2, 3), (50, 20))
-
-        # Red color
-        glColor3f(1, 0, 0)
-        glBegin(GL_LINE_STRIP)
-        for v in vertices:
-            x, y = v
-            glVertex2f(x, y)
-        glEnd()
-        display.flip()
 
 
 if __name__ == "__main__":
