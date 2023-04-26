@@ -6,12 +6,13 @@ from pygame.locals import DOUBLEBUF, OPENGL
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-RADIUS = 300
+X_CENTER = Y_CENTER = 0.5
+RADIUS = 100
 
 
 def plot(x: int, y: int):
     glBegin(GL_POINTS)
-    glVertex2f(x / 600, y / 600)
+    glVertex2f(x / 600 + X_CENTER, y / 600 + Y_CENTER)
     glEnd()
 
 
