@@ -15,7 +15,6 @@ R_Y = 200
 
 def plot(x: int, y: int):
     glBegin(GL_POINTS)
-    # glVertex2f(x / 600 + X_C, y / 600 + Y_C)
     glVertex2f(X_C + x / 600, Y_C + y / 600)
     glVertex2f(X_C + x / 600, Y_C - y / 600)
     glVertex2f(X_C - x / 600, Y_C + y / 600)
